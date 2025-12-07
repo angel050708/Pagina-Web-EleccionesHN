@@ -1,0 +1,234 @@
+/* Estilos específicos para la página de selección de tipo de votación */
+.tipo-votacion-header {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+    color: white;
+    padding: 3rem 2rem;
+    border-radius: 15px;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.tipo-votacion-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.tipo-votacion-header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+.tipos-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.tipo-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border: 3px solid transparent;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.tipo-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.5s;
+}
+
+.tipo-card:hover::before {
+    left: 100%;
+}
+
+.tipo-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.tipo-card.selected {
+    border-color: #007bff;
+    background: rgba(0, 123, 255, 0.05);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 123, 255, 0.3);
+}
+
+.tipo-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: white;
+    position: relative;
+}
+
+.tipo-nacional .tipo-icon {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+.tipo-internacional .tipo-icon {
+    background: linear-gradient(135deg, #007bff 0%, #6610f2 100%);
+}
+
+.tipo-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+}
+
+.tipo-card p {
+    color: #6c757d;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.tipo-radio {
+    width: 25px;
+    height: 25px;
+    margin: 0;
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
+.form-seleccion {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.btn-continuar {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    border: none;
+    padding: 1rem 3rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    color: white;
+    transition: all 0.3s ease;
+    min-width: 200px;
+}
+
+.btn-continuar:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
+    color: white;
+}
+
+.btn-continuar:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.informacion-adicional {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    border-left: 4px solid #007bff;
+}
+
+.informacion-adicional h5 {
+    color: #495057;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.informacion-adicional ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.informacion-adicional li {
+    margin-bottom: 0.5rem;
+    color: #6c757d;
+}
+
+/* Animación de pulso para el botón cuando está habilitado */
+.btn-continuar:not(:disabled):focus,
+.btn-continuar:not(:disabled):active {
+    animation: pulse 0.6s ease-in-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .tipos-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .tipo-card {
+        padding: 2rem;
+    }
+    
+    .tipo-votacion-header h1 {
+        font-size: 2rem;
+    }
+    
+    .tipo-icon {
+        width: 80px;
+        height: 80px;
+        font-size: 2rem;
+    }
+    
+    .form-seleccion {
+        padding: 1rem;
+        margin: 1rem;
+    }
+    
+    .btn-continuar {
+        width: 100%;
+        padding: 1rem 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .tipo-votacion-header {
+        padding: 2rem 1rem;
+    }
+    
+    .tipo-votacion-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .tipo-card {
+        padding: 1.5rem;
+    }
+    
+    .tipo-card h3 {
+        font-size: 1.25rem;
+    }
+    
+    .informacion-adicional {
+        padding: 1rem;
+        margin: 1rem 0;
+    }
+}

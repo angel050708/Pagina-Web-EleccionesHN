@@ -1,0 +1,175 @@
+/* Estilos específicos para la página de datos del votante */
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .datos-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .datos-label {
+        width: 100%;
+        font-weight: 600;
+    }
+    
+    .datos-value {
+        text-align: left;
+    }
+    
+    .datos-card {
+        padding: 1rem;
+    }
+    
+    .datos-header {
+        padding: 1.5rem 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .datos-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .tipo-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+    
+    .stat-item {
+        margin-bottom: 1rem;
+    }
+}
+
+.datos-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.datos-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.datos-section {
+    margin-bottom: 2rem;
+}
+
+.datos-section h5 {
+    color: #495057;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.datos-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+.datos-item:last-child {
+    border-bottom: none;
+}
+
+.datos-label {
+    font-weight: 500;
+    color: #6c757d;
+    flex-shrink: 0;
+    width: 40%;
+}
+
+.datos-value {
+    font-weight: 600;
+    color: #2c3e50;
+    text-align: right;
+    flex-grow: 1;
+}
+
+.icono-datos {
+    color: #007bff;
+    margin-right: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.estado-votacion {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.estado-votado {
+    background: #d1edff;
+    color: #0969da;
+}
+
+.estado-no-votado {
+    background: #fff3cd;
+    color: #b08800;
+}
+
+.alert-info-custom {
+    background: #e8f4fd;
+    border: 1px solid #bee5eb;
+    color: #0c5460;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.btn-action {
+    padding: 0.75rem 2rem;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-votar-ahora {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: none;
+    color: white;
+}
+
+.btn-votar-ahora:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+    color: white;
+}
+
+.datos-estadisticas {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #007bff;
+    display: block;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: #6c757d;
+    font-weight: 500;
+}

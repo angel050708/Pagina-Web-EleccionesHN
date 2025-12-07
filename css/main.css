@@ -1,0 +1,555 @@
+
+
+:root {
+    --color-primario: #0b3c5d;
+    --color-secundario: #165382;
+    --color-acento: #f7b733;
+    --color-verde: #21b08a;
+    --color-fondo: #f5f7fa;
+    --color-texto: #23384a;
+    --sombra-suave: 0 12px 26px rgba(11, 60, 93, 0.12);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    color: var(--color-texto);
+    background-color: var(--color-fondo);
+}
+
+section {
+    overflow: hidden;
+}
+
+main {
+    overflow-x: hidden;
+}
+
+.navbar-brand {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.navbar-brand span {
+    display: block;
+    font-size: 0.8rem;
+    letter-spacing: 0.28em;
+    color: #f4f8fc;
+}
+
+.navbar-logo {
+    height: 60px;
+    width: auto;
+}
+
+.navbar-elecciones {
+    background-color: #ffffff;
+    border-bottom: 1px solid #d8e2ec;
+    padding-block: 0.25rem;
+}
+
+.navbar-elecciones .container {
+    min-height: 70px;
+}
+
+.navbar-elecciones .navbar-brand {
+    padding: 0;
+    margin-right: 1.75rem;
+}
+
+.navbar-elecciones .navbar-tagline {
+    font-size: 0.7rem;
+    letter-spacing: 0.24em;
+    color: #4a5d70;
+}
+
+.navbar-elecciones .nav-link {
+    color: var(--color-texto);
+    font-weight: 500;
+    padding: 1rem 0;
+    margin: 0 1rem;
+    position: relative;
+}
+
+.nav-nowrap {
+    white-space: nowrap;
+}
+
+.navbar-elecciones .nav-link:hover,
+.navbar-elecciones .nav-link:focus {
+    color: var(--color-primario);
+}
+
+.navbar-elecciones .nav-link.active {
+    color: var(--color-primario);
+}
+
+.navbar-elecciones .nav-link.active::after,
+.navbar-elecciones .nav-link:hover::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.3rem;
+    height: 3px;
+    background: var(--color-acento);
+}
+
+.btn-nav-cta {
+    background: var(--color-acento);
+    color: #0b3c5d;
+    font-weight: 600;
+    border-radius: 999px;
+    padding: 0.6rem 1.5rem;
+    border: none;
+    transition: background-color 0.2s ease;
+}
+
+.btn-nav-cta:hover {
+    color: #0b3c5d;
+    background: #ffc753;
+}
+
+.hero-banner {
+    background: linear-gradient(120deg, rgba(11, 60, 93, 0.92), rgba(20, 74, 117, 0.75)), url('../img/hero-elecciones.jpg') center/cover no-repeat;
+    color: #fff;
+    position: relative;
+    padding: 4.5rem 0 5.5rem;
+}
+
+.hero-copy {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-copy .badge {
+    background-color: var(--color-acento);
+    color: #0b3c5d;
+    font-weight: 600;
+}
+
+.hero-buttons .btn {
+    min-width: 160px;
+    font-weight: 600;
+}
+
+.hero-visual img {
+    border-radius: 22px;
+    box-shadow: var(--sombra-suave);
+    border: 1px solid #ffffff33;
+    width: 100%;
+    height: auto;
+}
+
+
+.card-planilla {
+    border: none;
+    border-radius: 18px;
+    box-shadow: var(--sombra-suave);
+    background-color: #fff;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-planilla:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 32px rgba(11, 60, 93, 0.18);
+}
+
+.card-planilla .codigo {
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-secundario);
+}
+
+.card-planilla .icon-wrap {
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+}
+
+.icon-presidencial { background: #d9e7f3; color: var(--color-primario); }
+.icon-municipal { background: #d9e7f3; color:  var(--color-primario); }
+.icon-legislativo { background:#d9e7f3; color: var(--color-primario); }
+
+.section-heading {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--color-primario);
+}
+
+.section-sub {
+    color: rgba(34, 49, 63, 0.7);
+    max-width: 560px;
+    margin-top: 0.75rem;
+}
+
+
+.block-highlight {
+    background-color: #fff;
+    border-radius: 18px;
+    box-shadow: var(--sombra-suave);
+    padding: 2.25rem;
+}
+
+.block-highlight.hero-card {
+    background: #123b58;
+    border: 1px solid #ffffff40;
+    color: #fff;
+}
+
+.block-highlight.hero-card p,
+.block-highlight.hero-card li {
+    color: #f0f6fa;
+}
+
+.block-highlight.hero-card .btn {
+    border-color: #ffffffa6;
+    color: #fff;
+}
+
+.block-highlight.hero-card .btn:hover {
+    background: #ffffff1a;
+    color: #fff;
+}
+
+.timeline-paso {
+    border-left: 3px solid #d2dfec;
+    padding-left: 1.4rem;
+    position: relative;
+}
+
+.timeline-paso::before {
+    content: attr(data-paso);
+    position: absolute;
+    left: -1.6rem;
+    top: 0.2rem;
+    background: var(--color-primario);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: 999px;
+}
+
+
+.card-servicio {
+    border: none;
+    border-radius: 16px;
+    background-color: #fff;
+    box-shadow: var(--sombra-suave);
+    height: 100%;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-servicio:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(11, 60, 93, 0.18);
+}
+
+.card-servicio .icono {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 1.5rem;
+    margin-bottom: 0.9rem;
+}
+
+
+.gallery-thumb {
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    height: 270px;
+}
+
+.gallery-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.gallery-thumb::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.35) 100%);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.gallery-thumb:hover::after {
+    opacity: 1;
+}
+
+.gallery-thumb:hover img {
+    transform: scale(1.04);
+}
+
+.gallery-thumb span {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    text-shadow: 0 4px 12px rgba(0,0,0,0.45);
+}
+
+.testimonio {
+    border-radius: 18px;
+    background-color: #fff;
+    box-shadow: var(--sombra-suave);
+    padding: 1.9rem;
+    height: 100%;
+}
+
+.dato-resumen {
+    border-radius: 14px;
+    background: #fff;
+    padding: 1.4rem;
+    text-align: center;
+    box-shadow: var(--sombra-suave);
+}
+
+.dato-resumen .numero {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-primario);
+}
+
+footer {
+    background: #0a3047;
+    color: #f0f5f9;
+}
+
+footer a {
+    color: #dbe6ef;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #ffffff;
+}
+
+footer .marca {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+@media (max-width: 992px) {
+    .navbar-elecciones .navbar-brand {
+        margin-right: 0;
+    }
+
+    .navbar-elecciones .navbar-nav {
+        text-align: center;
+    }
+
+    .hero-banner {
+        text-align: center;
+        padding: 4rem 0 4.6rem;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .navbar-elecciones .nav-link {
+        padding: 0.75rem 0;
+        margin: 0 0.5rem;
+    }
+
+    .section-sub {
+        max-width: 100%;
+    }
+
+    .block-highlight {
+        margin-top: 1.8rem;
+    }
+
+    .hero-visual {
+        margin-top: 1.4rem;
+    }
+
+    .card-planilla {
+        padding: 1.7rem;
+    }
+
+    footer .col-lg-4 {
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-banner {
+        padding: 3.4rem 0 3.8rem;
+    }
+
+    .card-planilla {
+        text-align: center;
+    }
+
+    .block-highlight {
+        padding: 1.75rem;
+    }
+
+    .navbar-logo {
+        height: 48px;
+    }
+
+    .navbar-elecciones .navbar-nav {
+        align-items: flex-start;
+    }
+
+    .gallery-thumb {
+        height: 220px;
+    }
+
+    .hero-buttons .btn {
+        width: 100%;
+    }
+
+    .card-planilla {
+        padding: 1.5rem;
+    }
+
+    .testimonio {
+        padding: 1.5rem;
+    }
+
+    header .bg-primary .container {
+        flex-direction: column;
+        gap: 0.35rem;
+        text-align: center;
+    }
+
+    .hero-visual img {
+        max-width: 300px;
+        margin-inline: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-copy h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero-visual img {
+        max-width: 360px;
+        margin-inline: auto;
+    }
+
+    #planillas .section-heading,
+    #planillas .section-sub {
+        text-align: center;
+    }
+
+    #planillas .section-sub {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-buttons .btn {
+        width: 100%;
+    }
+
+    .timeline-paso {
+        padding-left: 1.1rem;
+    }
+
+    .timeline-paso::before {
+        left: -1.45rem;
+    }
+
+    .testimonio {
+        padding: 1.6rem;
+    }
+
+    .dato-resumen {
+        margin-bottom: 1rem;
+    }
+
+    .row.g-4 > [class*="col-"] {
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-copy .lead {
+        font-size: 1rem;
+    }
+
+    .gallery-thumb {
+        height: 200px;
+    }
+
+    .timeline-paso::before {
+        font-size: 0.7rem;
+        left: -1.2rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .hero-copy h1 {
+        font-size: 1.85rem;
+    }
+
+    .hero-copy .lead {
+        font-size: 0.95rem;
+    }
+
+    .hero-visual img {
+        border-radius: 18px;
+    }
+
+    .section-heading {
+        font-size: 1.45rem;
+    }
+
+    .section-sub {
+        font-size: 0.95rem;
+    }
+
+    .timeline-paso {
+        padding-left: 1rem;
+    }
+
+    .timeline-paso::before {
+        left: -1rem;
+    }
+
+    .dato-resumen {
+        padding: 1.25rem;
+    }
+
+    footer .marca {
+        font-size: 1rem;
+    }
+
+    footer .container {
+        text-align: center;
+    }
+}

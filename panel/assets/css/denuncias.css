@@ -1,0 +1,58 @@
+/* Estilos específicos para la página de denuncias */
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .denuncia-form {
+        padding: 1rem;
+    }
+    
+    .btn-denuncia {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    
+    .denuncia-card {
+        margin-bottom: 1rem;
+    }
+    
+    .file-upload-zone {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    
+    .priority-badge {
+        font-size: 0.75rem;
+    }
+}
+
+.denuncia-form {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.denuncia-card {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    background: white;
+}
+
+.priority-high {
+    border-left: 4px solid #dc3545;
+}
+
+.priority-medium {
+    border-left: 4px solid #ffc107;
+}
+
+.priority-low {
+    border-left: 4px solid #28a745;
+}
