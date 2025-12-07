@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------------------------------------------------
-                                         PROYECTO PROGRAMACION WEB OCT 2025
+                                         PROYECTO PROGRAMACION WEB DIC 2025
                                                ANGEL SOLANO 32441037 
 -----------------------------------------------------------------------------------------------------------------------------
 
@@ -7,7 +7,7 @@ EleccionHN es una pagina web creada usando los diferentes lenguajes de programai
 css, Javascript, PHP y usando para guardar todos los daots bases de datos en este caso MySQL. Se creo un repositorio en github
 https://github.com/angel050708/Pagina-Web-EleccionesHN.git   <--repositorio
 
-OJO
+--------------------------------------->             OJO             <------------------------------------------------------------------------------------------------------
 En la parte de alcaldias solo se usaron la de San pedro sula,Choloma Y Juticalpa por lo que se sugiere que al probarlo ingrese con los DNI de estos
 Departamentos y Municipios Para probar el de alcaldias
 
@@ -49,8 +49,7 @@ ESTRUCTURA DEL PROYECTO:
 ------------------------------------------------Archivos Principales del proyecto-------------------------------------------------
 
 index.php - Esta es la página de inicio del sistema, la primera que ve el usuario cuando entra. Aquí puse toda la información institucional sobre 
-las elecciones de Honduras, con una galería de imágenes y testimonios de ciudadanos.También incluí los enlaces principales para que los usuarios 
-puedan ir a votar o consultar resultados. Es como la cara pública del sistema electoral.
+las elecciones de Honduras, con una galería de imágenes y testimonios de ciudadanos Es la PARTE pública del sistema electoral.
 
 login.php - Aquí desarrollé todo el sistema de autenticación. Lo que hace es recibir el DNI y contraseña del usuario, validar que existan en la base de 
 datos usando consultas preparadas para evitar inyecciones SQL, y dependiendo del rol (admin o votante) redirige a su panel correspondiente. 
@@ -162,6 +161,6 @@ FLUJO DE VOTACIÓN:
 7. Puede consultar resultados en tiempo real
 
 El sistema está diseñado para ser fácil de usar tanto en computadoras como en celulares, con interfaz responsive que se adapta a cualquier pantalla.
-
+Todo esta da como culminado el poryecto asingado para la clase Programacion WEB DICIEMBRE 2025
 
 
