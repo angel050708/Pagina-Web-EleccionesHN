@@ -1,0 +1,167 @@
+----------------------------------------------------------------------------------------------------------------------------
+                                         PROYECTO PROGRAMACION WEB OCT 2025
+                                               ANGEL SOLANO 32441037 
+-----------------------------------------------------------------------------------------------------------------------------
+
+EleccionHN es una pagina web creada usando los diferentes lenguajes de programaicon aprendidos durante todo el periodo como html
+css, Javascript, PHP y usando para guardar todos los daots bases de datos en este caso MySQL. Se creo un repositorio en github
+https://github.com/angel050708/Pagina-Web-EleccionesHN.git   <--repositorio
+
+OJO
+En la parte de alcaldias solo se usaron la de San pedro sula,Choloma Y Juticalpa por lo que se sugiere que al probarlo ingrese con los DNI de estos
+Departamentos y Municipios Para probar el de alcaldias
+
+En el archivo funciones.php se utilizaron funciones de SQL que como tal no fueron enseñadas en la clase como son los JOIN mas que todo se usaron
+para el manejo y el "retrieve" de la data del sistema electoral y que la data se organice de manera organizacional 
+Angel Solano(osea yo) tengo un pequeño curso de SQL para data science, mas que todo ahi decidi aplicar estos comandos para mi proyecto
+
+------------------------------------------------DESCRIPCION DEL PROYECTO-----------------------------------------
+
+EleccionesHN es un sistema web completo para las elecciones generales de Honduras. La plataforma permite gestionar todo el proceso electoral desde el registro 
+de usuarios hasta ver los resultados en tiempo real.
+
+FUNCIONALIDADES PRINCIPALES:
+
+Para Votantes:
+- Registro con DNI hondureño 
+- Consulta de centros de votación según ubicación de departamento y municipio
+- Votar por Presidente, Diputados, Alcaldes y Vicealcaldes digitalmente
+- Recibir comprobante del voto emitido
+- Ver resultados y tendencias electorales
+- Reportar irregularidades del proceso
+
+Para Administradores:  
+- Crear y editar planillas de candidatos por departamento
+- Ver votación en tiempo real
+- Analizar estadísticas con gráficas interactivas
+- Administrar usuarios registrados
+- Revisar denuncias ciudadanas
+- Controlar el cierre de urnas
+
+LENGUAJES DE PORGRAMACIO  USADOS
+-PHP
+-HTML,CSS,JAVASCRIPT(Bootstrap)
+-MySQL
+
+
+ESTRUCTURA DEL PROYECTO:
+
+------------------------------------------------Archivos Principales del proyecto-------------------------------------------------
+
+index.php - Esta es la página de inicio del sistema, la primera que ve el usuario cuando entra. Aquí puse toda la información institucional sobre 
+las elecciones de Honduras, con una galería de imágenes y testimonios de ciudadanos.También incluí los enlaces principales para que los usuarios 
+puedan ir a votar o consultar resultados. Es como la cara pública del sistema electoral.
+
+login.php - Aquí desarrollé todo el sistema de autenticación. Lo que hace es recibir el DNI y contraseña del usuario, validar que existan en la base de 
+datos usando consultas preparadas para evitar inyecciones SQL, y dependiendo del rol (admin o votante) redirige a su panel correspondiente. 
+También manejo las sesiones aquí para mantener al usuario logueado de forma segura.
+
+registro.php - Este archivo contiene el formulario para que nuevos ciudadanos se registren al sistema. 
+Lo más complicado aquí fue validar que el DNI hondureño tenga el formato correcto (0000-0000-00000) y que no esté duplicado. 
+También implementé la lógica para asignar automáticamente el centro de votación según el departamento y municipio que seleccione el usuario.
+
+imagen.php - Este fue uno de los archivos más técnicos que tuve que crear. En lugar de servir las imágenes directamente desde la carpeta img/,
+ hice este servidor dinámico que valida qué imágenes se pueden mostrar. Esto es por seguridad, para que nadie pueda acceder a archivos que no debería. 
+El script verifica que la imagen esté en una lista autorizada y la sirve con los headers HTTP correctos para optimizar la carga.
+
+-----------------------------------------------Directorios de Recursos-------------------------------------------------------------------------
+
+css/ - Aquí guardé todas mis hojas de estilo personalizadas.Los archivos más importantes son auth.css para las páginas de login/registro y main.css para el resto del sistema.
+
+js/ - Contiene todos los scripts de JavaScript que desarrollé. El más complejo es main.js que maneja toda la interactividad del sistema, 
+como la validación de formularios en tiempo real, las llamadas AJAX para cargar datos dinámicamente, y la lógica para mostrar y ocultar 
+elementos según las acciones del usuario.
+
+img/ - Aquí están todas las imágenes del sistema, desde logos hasta fotos de candidatos. 
+Aunque físicamente están aquí, se sirven a través de imagen.php para mayor control y seguridad.
+
+includes/ - Esta carpeta contiene los archivos PHP más importantes del backend:
+  - database.php: configuración de conexión a MySQL con manejo de errores
+  - funciones.php: aquí está toda la lógica compleja del sistema, 
+las funciones que consultan la base de datos con JOINs, validaciones, y procesamiento de datos
+
+database/ - Contiene el archivo SufragioDB_schema.sql que es todo el esquema de la base de datos. 
+Aquí definí todas las tablas, relaciones con claves foráneas, índices para optimizar consultas, y restricciones para mantener la integridad de los datos electorales.
+
+scripts/ - Estos son los archivos que procesan los formularios cuando el usuario envía datos:
+  - process_login.php: valida credenciales y crea sesiones
+  - process_register.php: registra nuevos usuarios con todas las validaciones
+  - logout.php: cierra sesiones de forma segura
+  - seleccionar_centro.php: lógica para confirmar el centro de votación asignado
+
+seeds/ - Esta carpeta contiene los scripts la cree mas que todo para facilitar la manera en que lleno la base de datos, pero en si da un poco igual si se usa el query o estos scripts(no son necesarios.)
+Se ejecutan desde la terminal.
+Contiene scripts PHP que insertan datos de ejemplo como departamentos, municipios, candidatos, etc. 
+Si por alguna razón la base de datos se queda vacía, solo hay que ejecutar estos archivos desde la terminal y se llenan todos los datos automáticamente.
+
+-----------------------------------------------------------------Paneles del Sistema------------------------------------------------------------------------------------
+
+panel/admin/ - Aquí está todo el sistema de administración electoral:
+  - index.php: dashboard principal con estadísticas en tiempo real del proceso electoral
+  - planillas.php: interfaz para ver y gestionar todas las planillas de candidatos
+  - crear_planilla.php: formulario para crear nuevas candidaturas, con carga dinámica de municipios según el departamento seleccionado
+  - usuarios.php: administración de todos los usuarios registrados con funciones de búsqueda y filtrado
+  - tendencias.php: aquí implementé gráficas interactivas con Highcharts para mostrar tendencias de votación por hora y departamento
+  - cierre_urnas.php: control del proceso de cierre electoral con estadísticas finales
+  - resultados.php: visualización de resultados con gráficas circulares usando ECharts para elecciones presidenciales
+
+panel/votante/ - Portal para los ciudadanos que van a votar:
+  - index.php: dashboard personal del votante con sus datos y accesos rápidos
+  - votar.php: la interfaz más importante, donde el ciudadano selecciona sus candidatos. 
+
+Aquí implementé validación para que solo pueda votar una vez y confirmación antes de enviar el voto
+
+  - resultados.php: misma funcionalidad que el admin pero adaptada para ciudadanos comunes
+  - datos.php: permite al votante ver y actualizar su información personal
+  - recibo.php: genera el comprobante digital del voto con código único de verificación
+
+panel/assets/ - Recursos específicos para los paneles:
+  - css/: estilos especializados (admin.css para el panel administrativo, votante.css para el portal ciudadano)
+  - js/: scripts JavaScript específicos como votar.js que maneja toda la lógica de votación, 
+crear_planilla.js para la carga dinámica de municipios, y tendencias.js para configurar las gráficas estadísticas
+
+ARCHIVOS IMPORTANTES:
+
+includes/funciones.php - Funciones principales del sistema con conexiones a MySQL
+database/SufragioDB_schema.sql - Esquema completo de la base de datos
+panel/votante/votar.php - Interfaz principal para votar
+panel/admin/crear_planilla.php - Crear candidaturas por municipio
+panel/votante/resultados.php - Ver resultados con gráficas
+panel/admin/tendencias.php - Análisis estadístico para administradores
+
+BASE DE DATOS:
+Usa MySQL con las siguientes tablas principales:
+- usuarios: datos de votantes registrados
+- planillas: información de candidaturas  
+- candidatos: datos individuales de cada candidato
+- votos: registro de votos emitidos
+- departamentos y municipios: ubicaciones geográficas
+
+En el archivo de funciones.php se usaron:
+
+Las consultas usan JOIN para relacionar candidatos con votos y ubicaciones:
+SELECT c.nombre, COUNT(v.id) as total_votos 
+FROM candidatos c 
+LEFT JOIN votos v ON c.id = v.candidato_id 
+GROUP BY c.id ORDER BY total_votos DESC
+
+CARACTERÍSTICAS DE SEGURIDAD:
+- Un solo voto por usuario registrado
+- Validación de datos en frontend y backend  
+- Protección contra inyección SQL con prepared statements
+- Control de sesiones seguras
+- Validación de subida de archivos
+
+FLUJO DE VOTACIÓN:
+1. Usuario se registra con su DNI desde la parte publica
+2. El sistema el asigna al usuario automáticamente los candidatos y su centro de votacion.
+3. Sistema le asigna su centro de votación y el usuario tiene que confirmarlo dandole click
+4. Selecciona candidatos en la interfaz(Presidentes,Diputados,Alcaldes)
+5. Confirma y envía su voto  
+6. Recibe comprobante digital
+7. Puede consultar resultados en tiempo real
+
+El sistema está diseñado para ser fácil de usar tanto en computadoras como en celulares, con interfaz responsive que se adapta a cualquier pantalla.
+
+
+

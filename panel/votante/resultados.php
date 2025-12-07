@@ -358,7 +358,7 @@ $candidatoLider = !empty($candidatos) ? $candidatos[0] : null;
     <script>
         // Funcionalidad simple para la página de resultados
         document.addEventListener('DOMContentLoaded', function() {
-            // Auto-submit form when filters change
+            // Envío automático del formulario
             const form = document.querySelector('form');
             if (form) {
                 const selects = form.querySelectorAll('select');
@@ -369,7 +369,7 @@ $candidatoLider = !empty($candidatos) ? $candidatos[0] : null;
                 });
             }
 
-            // Initialize circular chart
+            // Gráfica circular de resultados
             <?php if (!empty($candidatos) && count($candidatos) > 0 && $tipoFiltro === 'presidencial'): ?>
             var chartDom = document.getElementById('resultsChart');
             if (chartDom) {
@@ -432,7 +432,7 @@ $candidatoLider = !empty($candidatos) ? $candidatos[0] : null;
 
                 myChart.setOption(option);
                 
-                // Responsive resize
+                // Redimensionar gráfica
                 window.addEventListener('resize', function() {
                     myChart.resize();
                 });

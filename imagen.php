@@ -1,13 +1,13 @@
 <?php
-// Script para servir imágenes dinámicamente
-header('Content-Type: image/png'); // Por defecto PNG
-header('Cache-Control: max-age=3600'); // Cache por 1 hora
+// Servir imágenes del sistema
+header('Content-Type: image/png');
+header('Cache-Control: max-age=3600');
 header('Pragma: cache');
 
 // Obtener el parámetro de imagen
 $imagen = $_GET['img'] ?? '';
 
-// Validar que solo se acceda a imágenes permitidas
+// Lista de imágenes autorizadas
 $imagenesPermitidas = [
     'cne_logo.png',
     'escudo_honduras.png',
