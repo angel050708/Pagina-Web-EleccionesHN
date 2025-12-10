@@ -3,7 +3,7 @@ function mostrarDetallesUsuario(usuarioId) {
     const modal = new bootstrap.Modal(document.getElementById('modalVerUsuario'));
     const content = document.getElementById('detallesUsuarioContent');
     
-    // Mostrar loading
+    
     content.innerHTML = `
         <div class="text-center py-5">
             <div class="spinner-border text-primary" role="status">
@@ -14,7 +14,7 @@ function mostrarDetallesUsuario(usuarioId) {
     
     modal.show();
     
-    // Cargar datos del usuario
+    
     fetch('obtener_usuario.php?id=' + usuarioId)
         .then(response => response.json())
         .then(data => {
@@ -196,7 +196,7 @@ function cargarMunicipios(departamentoId, prefijo = 'editar', municipioSeleccion
         });
 }
 
-// Event listener para cambio de departamento
+
 document.addEventListener('DOMContentLoaded', function() {
     const editarDepartamento = document.getElementById('editar_departamento');
     if (editarDepartamento) {
@@ -206,7 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Envío del formulario de edición
+
 document.getElementById('formEditarUsuario').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -309,7 +309,7 @@ document.getElementById('formCrearUsuario').addEventListener('submit', function(
     });
 });
 
-// Funciones auxiliares
+
 function escapeHtml(text) {
     if (!text) return '';
     const div = document.createElement('div');

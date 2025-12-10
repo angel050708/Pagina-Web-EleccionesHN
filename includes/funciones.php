@@ -4,7 +4,7 @@
 include_once __DIR__ . '/database.php';
 
 
-// FUNCIONES DE UTILIDAD Y VALIDACIÓN
+
 
 
 
@@ -36,7 +36,7 @@ function normalizarTelefono($telefono)
     return preg_replace('/\s+/', ' ', $limpio);
 }
 
-
+//No funcionan
 function enviarCorreoConfirmacionRegistro($destinatario, $nombre, $dni)
 {
     if ($destinatario === '' || !emailEsValido($destinatario)) {
@@ -94,7 +94,7 @@ function obtenerUbicacionPorDni($dni)
     try {
         $dniNormalizado = normalizarDni($dni);
         $partes = explode('-', $dniNormalizado);
-        $codigoMunicipio = $partes[0]; // First 4 digits
+        $codigoMunicipio = $partes[0]; 
 
         $resultado = dbQuery('SELECT m.id as municipio_id, m.departamento_id 
                               FROM municipios m 
@@ -1829,7 +1829,7 @@ function crearPlanilla($datos)
         
         $planillaId = $pdo->lastInsertId();
         
-        // Agregar candidatos si se proporcionaron
+        
         if (!empty($datos['candidatos'])) {
             $queryCandidato = "INSERT INTO candidatos (planilla_id, nombre, cargo, numero_candidato)
                                VALUES (:planilla_id, :nombre, :cargo, :numero_candidato)";
@@ -1867,7 +1867,7 @@ function actualizarEstadoUsuario($usuarioId, $estado, $habilitado = null)
         $stmt = $pdo->prepare($query);
         $stmt->execute([':estado' => $estado, ':id' => $usuarioId]);
         
-        // Actualizar votante si se especifica habilitación
+        
         if ($habilitado !== null) {
             $query = "UPDATE votantes SET habilitado = :habilitado, fecha_verificacion = NOW() WHERE usuario_id = :usuario_id";
             $stmt = $pdo->prepare($query);

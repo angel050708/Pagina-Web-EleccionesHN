@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-    window.seleccionarCandidato = seleccionarCandidato; // Fallback por si se requiere globalmente
+    window.seleccionarCandidato = seleccionarCandidato; 
 
     // Lógica para diputados - selección múltiple
     const candidatosCheckboxes = document.querySelectorAll('.candidato-checkbox');
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const maxDiputados = parseInt(document.querySelector('[data-max-diputados]')?.dataset.maxDiputados || '3');
 
     function actualizarSeleccionDiputados() {
-        // Obtener todos los checkboxes marcados
+        
         const checkboxesMarcados = document.querySelectorAll('.candidato-checkbox:checked');
         candidatosSeleccionados = [];
         
@@ -120,22 +120,22 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
         
-        // Actualizar contador
+        
         if (contadorSeleccionados) {
             contadorSeleccionados.textContent = candidatosSeleccionados.length;
         }
         
-        // Actualizar campo oculto
+        
         if (inputCandidatosSeleccionados) {
             inputCandidatosSeleccionados.value = JSON.stringify(candidatosSeleccionados);
         }
         
-        // Habilitar/deshabilitar botón
+        
         if (btnConfirmarDiputados) {
             btnConfirmarDiputados.disabled = candidatosSeleccionados.length === 0;
         }
         
-        // Deshabilitar checkboxes si se alcanzó el máximo
+        
         candidatosCheckboxes.forEach(function(checkbox) {
             if (!checkbox.checked && candidatosSeleccionados.length >= maxDiputados) {
                 checkbox.disabled = true;
@@ -147,15 +147,15 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Agregar event listeners a los checkboxes de candidatos
+    
     candidatosCheckboxes.forEach(function(checkbox) {
         checkbox.addEventListener('change', actualizarSeleccionDiputados);
     });
 
-    // Inicializar estado
+    
     actualizarSeleccionDiputados();
 
-    // Función global para abrir candidatos de diputados
+    
     window.abrirCandidatosDiputados = function(planillaId, partido) {
         const modalId = '#modalCandidatos' + planillaId;
         const modalEl = document.querySelector(modalId);
@@ -165,9 +165,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-    // Función para volver del modal de candidatos al modal de selección de partido
+   
     window.volverASeleccionPartido = function(planillaId) {
-        // Cerrar el modal actual de candidatos
+        
         const modalCandidatosId = '#modalCandidatos' + planillaId;
         const modalCandidatosEl = document.querySelector(modalCandidatosId);
         if (modalCandidatosEl) {
@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        // Mostrar el modal principal de diputados después de un pequeño delay
+       
         setTimeout(() => {
             const modalDiputadosEl = document.getElementById('modalVotacionDiputados');
             if (modalDiputadosEl) {
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 300);
     };
 
-    // Función global para abrir votación de alcalde por municipio
+    
     window.abrirVotacionAlcalde = async function(municipioId, municipioNombre) {
         const modalEl = document.getElementById('modalVotacionAlcalde');
         const tituloModal = document.getElementById('tituloModalAlcalde');

@@ -1,6 +1,6 @@
 // JavaScript para la página de denuncias
 document.addEventListener('DOMContentLoaded', function() {
-    // Auto-resize textarea
+    
     const textareas = document.querySelectorAll('textarea');
     textareas.forEach(textarea => {
         textarea.addEventListener('input', function() {
@@ -9,14 +9,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Validación del formulario
+    
     const form = document.querySelector('form');
     const fileInput = document.getElementById('evidencia');
     
     if (fileInput) {
         fileInput.addEventListener('change', function() {
             const files = this.files;
-            const maxSize = 10 * 1024 * 1024; // 10MB
+            const maxSize = 10 * 1024 * 1024; 
             
             for (let i = 0; i < files.length; i++) {
                 if (files[i].size > maxSize) {
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Mejorar interfaz de carga de archivos
+    
     if (fileInput) {
         const dropZone = fileInput.closest('.file-upload-zone');
         if (dropZone) {

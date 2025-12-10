@@ -4,30 +4,30 @@ document.addEventListener('DOMContentLoaded', function() {
     const radios = document.querySelectorAll('input[name="tipo_votante"]');
     const btnConfirmar = document.getElementById('btnConfirmar');
 
-    // Manejar clics en las tarjetas
+    
     cards.forEach(card => {
         card.addEventListener('click', function() {
             const type = this.dataset.type;
             const radio = document.getElementById(type);
             
-            // Limpiar selecciones anteriores
+            
             cards.forEach(c => c.classList.remove('selected'));
             radios.forEach(r => r.checked = false);
             
-            // Seleccionar actual
+            
             this.classList.add('selected');
             if (radio) {
                 radio.checked = true;
             }
             
-            // Habilitar botón
+            
             if (btnConfirmar) {
                 btnConfirmar.disabled = false;
             }
         });
     });
 
-    // Manejar cambios en radio buttons
+    
     radios.forEach(radio => {
         radio.addEventListener('change', function() {
             cards.forEach(c => c.classList.remove('selected'));
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Agregar efectos visuales responsive
+    
     function checkScreenSize() {
         if (window.innerWidth <= 768) {
             cards.forEach(card => {
