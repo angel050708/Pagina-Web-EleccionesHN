@@ -1,13 +1,6 @@
+
 <?php
-
-
 include_once __DIR__ . '/database.php';
-
-
-
-
-
-
 
 function limpiarTexto($valor)
 {
@@ -36,7 +29,6 @@ function normalizarTelefono($telefono)
     return preg_replace('/\s+/', ' ', $limpio);
 }
 
-//No funcionan
 function enviarCorreoConfirmacionRegistro($destinatario, $nombre, $dni)
 {
     if ($destinatario === '' || !emailEsValido($destinatario)) {
@@ -128,11 +120,7 @@ function redirigirConMensaje($ruta, array $mensajes = [], int $statusCode = 302)
     header('Location: ' . $url, true, $statusCode);
     exit;
 }
-
-
-// FUNCIONES DE VALIDACIÓN DNI
-
-
+ 
 
 
 function dniEsValido($dni)
@@ -520,7 +508,7 @@ function verificarSiYaVoto($usuarioId, $tipoEleccion)
     }
 }
 
-// se usaron uniones de sql como ser inner join y left join para obtener datos relacionados de otras tablas, como departamentos, municipios, centros de votación, planillas y candidatos.
+ 
 
 function obtenerDiputadosPorDepartamento($departamentoId)
 {
@@ -535,7 +523,7 @@ function obtenerDiputadosPorDepartamento($departamentoId)
         
         $planillas = dbQuery($query, [':departamento_id' => $departamentoId])->fetchAll();
         
-        // Procesar los candidatos concatenados
+        
         foreach ($planillas as &$planilla) {
             $planilla['candidatos'] = !empty($planilla['candidatos']) 
                 ? explode('|||', $planilla['candidatos']) 
@@ -1862,7 +1850,7 @@ function actualizarEstadoUsuario($usuarioId, $estado, $habilitado = null)
         $pdo = db();
         $pdo->beginTransaction();
         
-        // Actualizar usuario
+        
         $query = "UPDATE usuarios SET estado = :estado WHERE id = :id";
         $stmt = $pdo->prepare($query);
         $stmt->execute([':estado' => $estado, ':id' => $usuarioId]);
@@ -1890,7 +1878,7 @@ function obtenerEstadisticasDetalladas()
     try {
         $stats = [];
         
-        // Votos por departamento
+        
         $query = "SELECT d.nombre, COUNT(v.id) as total_votos
                   FROM departamentos d
                   LEFT JOIN usuarios u ON d.id = u.departamento_id
@@ -1899,14 +1887,14 @@ function obtenerEstadisticasDetalladas()
                   ORDER BY total_votos DESC";
         $stats['votos_por_departamento'] = dbQuery($query)->fetchAll();
         
-        // Votos por hora del día
+        
         $query = "SELECT HOUR(registrado_en) as hora, COUNT(*) as total_votos
                   FROM votos
                   GROUP BY HOUR(registrado_en)
                   ORDER BY hora";
         $stats['votos_por_hora'] = dbQuery($query)->fetchAll();
         
-        // Participación por tipo de votante
+        
         $query = "SELECT u.tipo_votante, 
                          COUNT(DISTINCT u.id) as total_usuarios,
                          COUNT(DISTINCT v.usuario_id) as usuarios_votaron,
