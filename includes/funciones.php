@@ -313,7 +313,12 @@ function obtenerResumenVotante($identificador)
 
         if (!empty($ubicacion['municipio_codigo'])) {
             $stmtMunicipio = db()->prepare(
-                'SELECT m.nombre AS municipio, d.nombre AS departamento
+                'SELECT 
+                    m.id AS municipio_id,
+                    m.nombre AS municipio,
+                    d.id AS departamento_id,
+                    d.nombre AS departamento,
+                    d.diputados_cupos AS depto_diputados_cupos
                  FROM municipios m
                  INNER JOIN departamentos d ON d.id = m.departamento_id
                  WHERE m.codigo = :codigo
@@ -322,8 +327,23 @@ function obtenerResumenVotante($identificador)
             $stmtMunicipio->execute([':codigo' => $ubicacion['municipio_codigo']]);
             $result = $stmtMunicipio->fetch(PDO::FETCH_ASSOC);
             if ($result) {
+                
                 $ubicacion['municipio'] = $result['municipio'];
                 $ubicacion['departamento'] = $result['departamento'];
+
+                
+                if (empty($datos['municipio_id']) && !empty($result['municipio_id'])) {
+                    $datos['municipio_id'] = (int) $result['municipio_id'];
+                    $datos['municipio_nombre'] = $result['municipio'];
+                }
+                if (empty($datos['departamento_id']) && !empty($result['departamento_id'])) {
+                    $datos['departamento_id'] = (int) $result['departamento_id'];
+                    $datos['departamento_nombre'] = $result['departamento'];
+                    
+                    if (empty($datos['diputados_cupos']) && $result['depto_diputados_cupos'] !== null) {
+                        $datos['diputados_cupos'] = (int) $result['depto_diputados_cupos'];
+                    }
+                }
             }
         }
 
