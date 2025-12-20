@@ -984,6 +984,7 @@ function obtenerUsuariosActivos() {
 function obtenerEstadisticasVotacion() {
     try {
         $stats = [];
+        // Votos totales (puede incluir múltiples votos por usuario según tipo de elección)
         $stats['total_votos'] = (int) dbQuery("SELECT COUNT(*) FROM votos")->fetchColumn();
 
         $stats['centros_activos'] = (int) dbQuery("SELECT COUNT(DISTINCT cv.id)
@@ -992,10 +993,12 @@ function obtenerEstadisticasVotacion() {
                                                     LEFT JOIN centros_votacion cv ON cv.id = u.centro_votacion_id
                                                     WHERE cv.id IS NOT NULL")->fetchColumn();
 
+        // Participación: porcentaje de votantes únicos que han emitido al menos un voto
+        $votantesConVoto = (int) dbQuery("SELECT COUNT(DISTINCT usuario_id) FROM votos")->fetchColumn();
         $totalVotantesHabilitados = (int) dbQuery("SELECT COUNT(*) FROM usuarios WHERE rol = 'votante'")->fetchColumn();
         $stats['participacion'] = $totalVotantesHabilitados > 0
-            ? round(($stats['total_votos'] / $totalVotantesHabilitados) * 100, 2)
-            : 0;
+            ? round(($votantesConVoto / $totalVotantesHabilitados) * 100, 2)
+            : 0.0;
 
         $stats['incidencias'] = (int) dbQuery("SELECT COUNT(*) FROM denuncias_actos_irregulares")->fetchColumn();
 
@@ -1058,26 +1061,78 @@ function obtenerUltimasVotaciones($limite) {
 }
 
 function obtenerConfiguracionVotacion() {
-    return [
-        'estado' => 'activo',
-        'fecha_inicio' => date('Y-m-d'),
-        'fecha_fin' => date('Y-m-d'),
-        'hora_inicio' => '06:00',
-        'hora_fin' => '18:00',
-        'permitir_voto_temprano' => 0
-    ];
+    try {
+        // Asegurar tabla de configuración simple (clave/valor)
+        dbQuery("CREATE TABLE IF NOT EXISTS configuracion (
+            clave VARCHAR(100) PRIMARY KEY,
+            valor TEXT NULL,
+            actualizado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+
+        $estado = dbQuery("SELECT valor FROM configuracion WHERE clave = 'proceso_votacion_estado' LIMIT 1")->fetchColumn();
+        if ($estado !== 'activo' && $estado !== 'inactivo') {
+            // Inicializa como inactivo si no existe
+            dbQuery("INSERT INTO configuracion (clave, valor) VALUES ('proceso_votacion_estado', 'inactivo')
+                     ON DUPLICATE KEY UPDATE valor = VALUES(valor)");
+            $estado = 'inactivo';
+        }
+
+        return [
+            'estado' => $estado,
+            'fecha_inicio' => date('Y-m-d'),
+            'fecha_fin' => date('Y-m-d'),
+            'hora_inicio' => '06:00',
+            'hora_fin' => '18:00',
+            'permitir_voto_temprano' => 0
+        ];
+    } catch (Exception $e) {
+        error_log('Error al obtener configuración de votación: ' . $e->getMessage());
+        return [
+            'estado' => 'inactivo',
+            'fecha_inicio' => date('Y-m-d'),
+            'fecha_fin' => date('Y-m-d'),
+            'hora_inicio' => '06:00',
+            'hora_fin' => '18:00',
+            'permitir_voto_temprano' => 0
+        ];
+    }
 }
 
 function iniciarProcesoVotacion() {
-    return true;
+    try {
+        dbQuery("CREATE TABLE IF NOT EXISTS configuracion (
+            clave VARCHAR(100) PRIMARY KEY,
+            valor TEXT NULL,
+            actualizado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+        dbQuery("INSERT INTO configuracion (clave, valor) VALUES ('proceso_votacion_estado', 'activo')
+                 ON DUPLICATE KEY UPDATE valor = VALUES(valor)");
+        return true;
+    } catch (Exception $e) {
+        error_log('Error al iniciar proceso de votación: ' . $e->getMessage());
+        return false;
+    }
 }
 
 function pausarProcesoVotacion() {
-    return true;
+    // Opción eliminada del UI; mantener como no operativa
+    return false;
 }
 
 function finalizarProcesoVotacion() {
-    return true;
+    try {
+        dbQuery("CREATE TABLE IF NOT EXISTS configuracion (
+            clave VARCHAR(100) PRIMARY KEY,
+            valor TEXT NULL,
+            actualizado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+        dbQuery("INSERT INTO configuracion (clave, valor) VALUES ('proceso_votacion_estado', 'inactivo')
+                 ON DUPLICATE KEY UPDATE valor = VALUES(valor)");
+        return true;
+    } catch (Exception $e) {
+        error_log('Error al finalizar proceso de votación: ' . $e->getMessage());
+        return false;
+    }
 }
 
 function actualizarConfiguracionVotacion($config) {
@@ -1245,12 +1300,29 @@ function asignarResponsableDenuncia($id, $responsableId)
 }
 
 function obtenerEstadoProcesoVotacion() {
-    return [
-        'estado' => 'activo',
-        'centros_abiertos' => 25,
-        'centros_cerrados' => 5,
-        'total_centros' => 30
-    ];
+    try {
+        $total = (int) dbQuery("SELECT COUNT(*) FROM centros_votacion")->fetchColumn();
+        $abiertos = (int) dbQuery("SELECT COUNT(*) FROM centros_votacion WHERE estado = 'activo'")->fetchColumn();
+        $cerrados = max($total - $abiertos, 0);
+
+        // Si no hay centros abiertos, consideramos el proceso como finalizado
+        $estado = $abiertos > 0 ? 'activo' : 'finalizado';
+
+        return [
+            'estado' => $estado,
+            'centros_abiertos' => $abiertos,
+            'centros_cerrados' => $cerrados,
+            'total_centros' => $total
+        ];
+    } catch (Exception $e) {
+        error_log('Error al obtener estado del proceso de votación: ' . $e->getMessage());
+        return [
+            'estado' => 'activo',
+            'centros_abiertos' => 0,
+            'centros_cerrados' => 0,
+            'total_centros' => 0
+        ];
+    }
 }
 
 function obtenerInformacionCentrosParaCierre() {
@@ -1261,6 +1333,7 @@ function obtenerInformacionCentrosParaCierre() {
                          cv.direccion,
                          cv.capacidad,
                          cv.estado AS estado_centro,
+                 cv.actualizado_en AS cerrado_en,
                          m.nombre AS municipio_nombre,
                          d.nombre AS departamento_nombre,
                          COUNT(v.id) AS total_votos,
@@ -1289,7 +1362,7 @@ function obtenerInformacionCentrosParaCierre() {
             $centro['participacion'] = $capacidad > 0 ? round(($totalVotos / $capacidad) * 100, 2) : 0;
             $centro['ultimo_voto'] = $centro['ultimo_voto'] ?: null;
             $centro['cerrado'] = ($centro['estado_centro'] ?? 'activo') !== 'activo';
-            $centro['hora_cierre'] = $centro['cerrado'] ? $centro['ultimo_voto'] : null;
+            $centro['hora_cierre'] = $centro['cerrado'] ? ($centro['cerrado_en'] ?? $centro['ultimo_voto']) : null;
             $centro['total_votos'] = $totalVotos;
         }
 
@@ -1371,11 +1444,28 @@ function obtenerResumenCierreUrnas() {
 
 
 function iniciarCierreGeneralUrnas() {
-    return true;
+    try {
+        // Cierra todos los centros que aún estén activos
+        $stmt = dbQuery("UPDATE centros_votacion SET estado = 'inactivo', actualizado_en = CURRENT_TIMESTAMP WHERE estado = 'activo'");
+        // Si no se afectó ningún registro, igual devolvemos true para no bloquear la UI
+        return $stmt->rowCount() >= 0;
+    } catch (Exception $e) {
+        error_log('Error al iniciar cierre general de urnas: ' . $e->getMessage());
+        return false;
+    }
 }
 
 function cerrarCentroVotacion($centroId, $usuarioId, $observaciones) {
-    return true;
+    try {
+        // Cierra solo el centro indicado
+        $stmt = dbQuery("UPDATE centros_votacion SET estado = 'inactivo', actualizado_en = CURRENT_TIMESTAMP WHERE id = :id", [
+            ':id' => (int) $centroId,
+        ]);
+        return $stmt->rowCount() > 0;
+    } catch (Exception $e) {
+        error_log('Error al cerrar centro de votación: ' . $e->getMessage());
+        return false;
+    }
 }
 
 function generarActaCierre($centroId) {
@@ -1383,7 +1473,41 @@ function generarActaCierre($centroId) {
 }
 
 function finalizarProcesoElectoral($usuarioId) {
-    return true;
+    try {
+        // Consideramos finalizado si todos los centros están cerrados (no activos)
+        $abiertos = (int) dbQuery("SELECT COUNT(*) FROM centros_votacion WHERE estado = 'activo'")->fetchColumn();
+        if ($abiertos > 0) {
+            // Si aún hay centros abiertos, intentamos cerrarlos todos
+            dbQuery("UPDATE centros_votacion SET estado = 'inactivo', actualizado_en = CURRENT_TIMESTAMP WHERE estado = 'activo'");
+        }
+
+        return true;
+    } catch (Exception $e) {
+        error_log('Error al finalizar proceso electoral: ' . $e->getMessage());
+        return false;
+    }
+}
+
+function abrirCentroVotacion($centroId) {
+    try {
+        $stmt = dbQuery("UPDATE centros_votacion SET estado = 'activo', actualizado_en = CURRENT_TIMESTAMP WHERE id = :id", [
+            ':id' => (int) $centroId,
+        ]);
+        return $stmt->rowCount() > 0;
+    } catch (Exception $e) {
+        error_log('Error al abrir centro de votación: ' . $e->getMessage());
+        return false;
+    }
+}
+
+function reabrirCentros() {
+    try {
+        $stmt = dbQuery("UPDATE centros_votacion SET estado = 'activo', actualizado_en = CURRENT_TIMESTAMP WHERE estado <> 'activo'");
+        return $stmt->rowCount() >= 0;
+    } catch (Exception $e) {
+        error_log('Error al reabrir centros de votación: ' . $e->getMessage());
+        return false;
+    }
 }
 
 function obtenerVotosRecientes($limite = 10)

@@ -188,7 +188,7 @@ INSERT INTO tipos_votacion (codigo, descripcion) VALUES
     ('exterior', 'Voto en consulados o embajadas en el extranjero')
 ON DUPLICATE KEY UPDATE descripcion = VALUES(descripcion);
 
--- DATOS INICIALES
+
 
 -- Insertar departamentos
 INSERT INTO departamentos (codigo, nombre, cabecera, diputados_cupos, candidatos_diputados) VALUES

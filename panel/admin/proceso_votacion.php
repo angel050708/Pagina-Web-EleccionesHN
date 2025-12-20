@@ -33,14 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion'])) {
                 }
                 break;
             
-            case 'pausar_votacion':
-                if (pausarProcesoVotacion()) {
-                    $mensaje = 'Proceso de votación pausado.';
-                } else {
-                    $error = 'Error al pausar el proceso de votación.';
-                }
-                break;
-            
             case 'finalizar_votacion':
                 if (finalizarProcesoVotacion()) {
                     $mensaje = 'Proceso de votación finalizado correctamente.';
@@ -147,15 +139,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion'])) {
                 <div class="topbar-meta">
                     <div class="topbar-chips">
                         <span class="chip admin-chip"><i class="bi bi-shield-check"></i>Administrador</span>
-                        <span class="chip chip--<?php 
-                            echo $configuracionActual['estado'] === 'activo' ? 'success' : 
-                                ($configuracionActual['estado'] === 'pausado' ? 'warning' : 'secondary'); 
-                        ?>">
-                            <i class="bi bi-<?php 
-                                echo $configuracionActual['estado'] === 'activo' ? 'play-fill' : 
-                                    ($configuracionActual['estado'] === 'pausado' ? 'pause-fill' : 'stop-fill'); 
-                            ?>"></i>
-                            <?php echo ucfirst($configuracionActual['estado'] ?? 'Inactivo'); ?>
+                        <span class="chip chip--<?php echo $configuracionActual['estado'] === 'activo' ? 'success' : 'secondary'; ?>">
+                            <i class="bi bi-<?php echo $configuracionActual['estado'] === 'activo' ? 'play-fill' : 'stop-fill'; ?>"></i>
+                            <?php echo ucfirst($configuracionActual['estado'] ?? 'inactivo'); ?>
                         </span>
                     </div>
                     <a class="btn btn-outline-primary" href="../../scripts/logout.php"><i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión</a>
@@ -235,11 +221,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion'])) {
                                         <div class="process-control">
                                             <h6>Estado actual</h6>
                                             <div class="status-indicator status-<?php echo $configuracionActual['estado'] ?? 'inactivo'; ?>">
-                                                <i class="bi bi-<?php 
-                                                    echo $configuracionActual['estado'] === 'activo' ? 'play-circle-fill' : 
-                                                        ($configuracionActual['estado'] === 'pausado' ? 'pause-circle-fill' : 'stop-circle-fill'); 
-                                                ?>"></i>
-                                                <span><?php echo ucfirst($configuracionActual['estado'] ?? 'Inactivo'); ?></span>
+                                                <i class="bi bi-<?php echo $configuracionActual['estado'] === 'activo' ? 'play-circle-fill' : 'stop-circle-fill'; ?>"></i>
+                                                <span><?php echo ucfirst($configuracionActual['estado'] ?? 'inactivo'); ?></span>
                                             </div>
                                         </div>
                                     </div>
@@ -255,25 +238,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion'])) {
                                                         </button>
                                                     </form>
                                                 <?php elseif ($configuracionActual['estado'] === 'activo'): ?>
-                                                    <form method="POST" class="d-inline">
-                                                        <input type="hidden" name="accion" value="pausar_votacion">
-                                                        <button type="submit" class="btn btn-warning btn-sm" onclick="return confirm('¿Pausar el proceso de votación?')">
-                                                            <i class="bi bi-pause-fill"></i> Pausar
-                                                        </button>
-                                                    </form>
-                                                    <form method="POST" class="d-inline">
-                                                        <input type="hidden" name="accion" value="finalizar_votacion">
-                                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Finalizar el proceso de votación? Esta acción no se puede deshacer.')">
-                                                            <i class="bi bi-stop-fill"></i> Finalizar
-                                                        </button>
-                                                    </form>
-                                                <?php elseif ($configuracionActual['estado'] === 'pausado'): ?>
-                                                    <form method="POST" class="d-inline">
-                                                        <input type="hidden" name="accion" value="iniciar_votacion">
-                                                        <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('¿Reanudar el proceso de votación?')">
-                                                            <i class="bi bi-play-fill"></i> Reanudar
-                                                        </button>
-                                                    </form>
                                                     <form method="POST" class="d-inline">
                                                         <input type="hidden" name="accion" value="finalizar_votacion">
                                                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Finalizar el proceso de votación? Esta acción no se puede deshacer.')">

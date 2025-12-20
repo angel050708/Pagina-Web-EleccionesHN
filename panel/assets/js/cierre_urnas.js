@@ -37,3 +37,28 @@ setInterval(function() {
         location.reload();
     }
 }, 60000);
+
+function abrirCentroVotacion(centroId) {
+    if (confirm('¿Abrir nuevamente este centro de votación?')) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.innerHTML = `
+            <input type="hidden" name="accion" value="abrir_centro_individual">
+            <input type="hidden" name="centro_id" value="${centroId}">
+        `;
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+
+function reabrirCentros() {
+    if (confirm('¿Reabrir todos los centros cerrados?')) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.innerHTML = `
+            <input type="hidden" name="accion" value="reabrir_centros">
+        `;
+        document.body.appendChild(form);
+        form.submit();
+    }
+}

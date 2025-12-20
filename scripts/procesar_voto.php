@@ -13,6 +13,36 @@ if (empty($_SESSION['usuario_id']) || $_SESSION['usuario_rol'] !== 'votante') {
     exit;
 }
 
+$usuarioId = (int) $_SESSION['usuario_id'];
+
+// Verificar estado global del proceso de votación
+$configProceso = obtenerConfiguracionVotacion();
+if (($configProceso['estado'] ?? 'inactivo') !== 'activo') {
+    header('Location: ../panel/votante/votar.php?error=' . rawurlencode('El proceso de votación está cerrado.'));
+    exit;
+}
+
+// Verificar estado del centro de votación del usuario (si aplica)
+try {
+    $datosUsuario = dbQuery('SELECT centro_votacion_id FROM usuarios WHERE id = :id LIMIT 1', [
+        ':id' => $usuarioId,
+    ])->fetch();
+    $centroId = isset($datosUsuario['centro_votacion_id']) ? (int) $datosUsuario['centro_votacion_id'] : 0;
+    if ($centroId > 0) {
+        $estadoCentro = dbQuery('SELECT estado FROM centros_votacion WHERE id = :id LIMIT 1', [
+            ':id' => $centroId,
+        ])->fetchColumn();
+        if ($estadoCentro !== 'activo') {
+            header('Location: ../panel/votante/votar.php?error=' . rawurlencode('Tu centro de votación está cerrado.'));
+            exit;
+        }
+    }
+} catch (Exception $e) {
+    error_log('Error al verificar estado de centro: ' . $e->getMessage());
+    header('Location: ../panel/votante/votar.php?error=' . rawurlencode('No se pudo verificar el estado del centro.'));
+    exit;
+}
+
 $tipoVoto = strtolower(trim((string) ($_POST['tipo_voto'] ?? '')));
 
 if ($tipoVoto === '') {

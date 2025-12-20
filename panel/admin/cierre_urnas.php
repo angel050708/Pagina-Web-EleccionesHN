@@ -37,6 +37,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion'])) {
                     $error = 'Error al iniciar el cierre de urnas.';
                 }
                 break;
+            
+            case 'reabrir_centros':
+                if (reabrirCentros()) {
+                    $mensaje = 'Todos los centros cerrados fueron reabiertos.';
+                } else {
+                    $error = 'Error al reabrir centros.';
+                }
+                break;
                 
             case 'cerrar_centro_individual':
                 $centroId = (int)$_POST['centro_id'];
@@ -46,6 +54,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion'])) {
                     $mensaje = 'Centro de votación cerrado correctamente.';
                 } else {
                     $error = 'Error al cerrar el centro de votación.';
+                }
+                break;
+            
+            case 'abrir_centro_individual':
+                $centroId = (int)$_POST['centro_id'];
+                if (abrirCentroVotacion($centroId)) {
+                    $mensaje = 'Centro de votación abierto nuevamente.';
+                } else {
+                    $error = 'Error al abrir el centro de votación.';
                 }
                 break;
                 
@@ -240,6 +257,16 @@ $procesoCompletamenteTerminado = $centrosPendientes == 0 && $estadoVotacion['est
                                                     </form>
                                                 <?php endif; ?>
                                                 
+                                                <?php if ($centrosCerrados > 0): ?>
+                                                    <form method="POST" class="d-inline">
+                                                        <input type="hidden" name="accion" value="reabrir_centros">
+                                                        <button type="submit" class="btn btn-outline-secondary btn-sm" 
+                                                                onclick="return confirm('¿Reabrir todos los centros cerrados?')">
+                                                            <i class="bi bi-unlock"></i> Reabrir todos
+                                                        </button>
+                                                    </form>
+                                                <?php endif; ?>
+                                                
                                                 <?php if ($centrosPendientes == 0 && $estadoVotacion['estado'] !== 'finalizado'): ?>
                                                     <form method="POST" class="d-inline">
                                                         <input type="hidden" name="accion" value="finalizar_proceso_electoral">
@@ -336,6 +363,10 @@ $procesoCompletamenteTerminado = $centrosPendientes == 0 && $estadoVotacion['est
                                                             <button class="btn-icon btn-icon--success" title="Generar acta" 
                                                                     onclick="generarActaCentro(<?php echo $centro['id']; ?>)">
                                                                 <i class="bi bi-file-text"></i>
+                                                            </button>
+                                                            <button class="btn-icon btn-icon--secondary" title="Abrir centro" 
+                                                                    onclick="abrirCentroVotacion(<?php echo $centro['id']; ?>)">
+                                                                <i class="bi bi-unlock"></i>
                                                             </button>
                                                         <?php endif; ?>
                                                     </div>
